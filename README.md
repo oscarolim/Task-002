@@ -1,0 +1,42 @@
+#User
+Does not require authentication (for ease of testing the API - real world scenario would require authentication for at least all write requests)
+GET api/v1/user [Optional extra parameter with championships as the value to return associated championships
+
+GET api/v1/user/{id} [Optional extra parameter with championships as the value to return associated championships
+
+POST api/v1/user/{id} [name:string, email:valid email, number:int >= 0]
+
+Requires authentication (Api-Key parameter in header)
+PUT api/v1/user/{id} [name:string, email:valid email, number:int >= 0]
+
+DELETE api/v1/user/{id}
+
+#Championship
+Requires authentication (Api-Key parameter in header)
+GET api/v1/championship [Optional extra parameter with participants and/or races (comma separated) as the value to return associated participants
+
+GET api/v1/championship/{id} [Optional extra parameter with participants and/or races (comma separated) as the value to return associated participants
+
+POST api/v1/championship/{id} [name:string, date:valid date (YYYY-MM-DD)]
+
+PUT api/v1/championship/{id} [name:string, date:valid date (YYYY-MM-DD)]
+
+DELETE api/v1/championship/{id}
+
+POST api/v1/championship/{id}/participant [user_id: valid user id]
+
+DELETE api/v1/championship/{id}/participant [user_id: valid user id]
+
+#Races
+Requires authentication (Api-Key parameter in header)
+GET api/v1/race
+
+GET api/v1/race/{id}
+
+POST api/v1/race/{id} [name:string, championship_id:valid championship_id]
+
+PUT api/v1/race/{id} [name:string, championship_id:valid championship_id]
+
+DELETE api/v1/race/{id}
+
+POST api/v1/race/{id}/result [user_id: valid user idp, points: integer]
