@@ -12,11 +12,9 @@ class ChampionshipController extends Controller
 
     public function index(Request $request)
     {
-        $with = array_intersect(self::VALID_EXTRA, explode(',', $request->input('extra')));
-        if(count($with) > 0)
-            $championships = Championship::with($with)->get();
-        else
-            $championships = Championship::all();
+        $parts = preg_replace('/\s+/', '', $request->input('extra'));
+        $with = array_intersect(self::VALID_EXTRA, explode(',', $parts));
+        $championships = Championship::with($with)->get();
         return response()->json(["code"=> 200 , "message" => "success" , "Championships" =>$championships]);
     }
 
@@ -32,13 +30,11 @@ class ChampionshipController extends Controller
 
     public function show(Request $request, $id)
     {
-        $with = array_intersect(self::VALID_EXTRA, explode(',', $request->input('extra')));
-        if(count($with) > 0)
-            $championship = Championship::find($id)->with('participants')->get();
-        else
-            $championship = Championship::find($id);
+        $parts = preg_replace('/\s+/', '', $request->input('extra'));
+        $with = array_intersect(self::VALID_EXTRA, explode(',', $parts));
+        $championship = Championship::find($id)->with($with)->get();
+        
         if(empty($championship))
-
             return response()->json(["code"=> 406 , "message" => "championship not found"], 406);
         return response()->json(["code"=> 200 , "message" => "success" , "championship" =>$championship]);
     }

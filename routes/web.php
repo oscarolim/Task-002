@@ -15,7 +15,7 @@ $router->get('/', function () use ($router) {
     return '
     <h2>User</h2>
     <h3>Does not require authentication (for ease of testing the API - real world scenario would require authentication for at least all write requests)</h3>
-    <p>GET api/v1/user [Optional <strong>extra</strong> parameter with <strong>championships</strong> as the value to return associated championships</p>
+    <p>GET api/v1/users [Optional <strong>extra</strong> parameter with <strong>championships</strong> as the value to return associated championships</p>
     <p>GET api/v1/user/{id} [Optional <strong>extra</strong> parameter with <strong>championships</strong> as the value to return associated championships</p>
     <p>POST api/v1/user/{id} [name:string, email:valid email, number:int >= 0]</p>
     <h3>Requires authentication (Api-Key parameter in header)</h3>
@@ -24,7 +24,7 @@ $router->get('/', function () use ($router) {
 
     <h2>Championship</h2>
     <h3>Requires authentication (Api-Key parameter in header)</h3>
-    <p>GET api/v1/championship [Optional <strong>extra</strong> parameter with <strong>participants</strong> and/or <strong>races</strong> (comma separated) as the value to return associated participants</p>
+    <p>GET api/v1/championships [Optional <strong>extra</strong> parameter with <strong>participants</strong> and/or <strong>races</strong> (comma separated) as the value to return associated participants</p>
     <p>GET api/v1/championship/{id} [Optional <strong>extra</strong> parameter with <strong>participants</strong> and/or <strong>races</strong> (comma separated) as the value to return associated participants</p>
     <p>POST api/v1/championship/{id} [name:string, date:valid date (YYYY-MM-DD)]</p>
     <p>PUT api/v1/championship/{id} [name:string, date:valid date (YYYY-MM-DD)]</p>
@@ -34,7 +34,7 @@ $router->get('/', function () use ($router) {
 
     <h2>Races</h2>
     <h3>Requires authentication (Api-Key parameter in header)</h3>
-    <p>GET api/v1/race</p>
+    <p>GET api/v1/races</p>
     <p>GET api/v1/race/{id}</p>
     <p>POST api/v1/race/{id} [name:string, championship_id:valid championship_id]</p>
     <p>PUT api/v1/race/{id} [name:string, championship_id:valid championship_id]</p>
@@ -46,7 +46,7 @@ $router->get('/', function () use ($router) {
 $router->group([
     'prefix' => 'api/v1',
 ], function () use ($router){
-    $router->get('/user', 'UserController@index');
+    $router->get('/users', 'UserController@index');
     $router->get('/user/{id}', 'UserController@show');
     $router->post('/user', 'UserController@store');
     $router->put('/user/{id}', [
@@ -63,7 +63,7 @@ $router->group([
     'prefix' => 'api/v1',
     'middleware' => 'auth'
 ], function () use ($router){
-    $router->get('/championship', 'ChampionshipController@index');
+    $router->get('/championships', 'ChampionshipController@index');
     $router->get('/championship/{id}', 'ChampionshipController@show');
     $router->post('/championship', 'ChampionshipController@store');
     $router->put('/championship/{id}', 'ChampionshipController@update');
@@ -76,7 +76,7 @@ $router->group([
     'prefix' => 'api/v1',
     'middleware' => 'auth'
 ], function () use ($router){
-    $router->get('/race', 'RaceController@index');
+    $router->get('/races', 'RaceController@index');
     $router->get('/race/{id}', 'RaceController@show');
     $router->post('/race', 'RaceController@store');
     $router->put('/race/{id}', 'RaceController@update');

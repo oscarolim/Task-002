@@ -13,11 +13,9 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $with = array_intersect(self::VALID_EXTRA, explode(',', $request->input('extra')));
-        if(count($with) > 0)
-            $users = User::with('championships')->get();
-        else
-            $users = User::all();
+        $parts = preg_replace('/\s+/', '', $request->input('extra'));
+        $with = array_intersect(self::VALID_EXTRA, explode(',', $parts));
+        $users = User::with($with)->get();
         return response()->json(["code"=> 200 , "message" => "success" , "users" =>$users]);
     }
 
@@ -34,11 +32,10 @@ class UserController extends Controller
 
     public function show(Request $request, $id)
     {
-        $with = array_intersect(self::VALID_EXTRA, explode(',', $request->input('extra')));
-        if(count($with) > 0)
-            $user = User::find($id)->with('championships')->get();
-        else
-            $user = User::find($id);
+        $parts = preg_replace('/\s+/', '', $request->input('extra'));
+        $with = array_intersect(self::VALID_EXTRA, explode(',', $parts));
+        $user = User::find($id)->with($with)->get();
+        
         if(empty($user))
             return response()->json(["code"=> 406 , "message" => "user not found"], 406);
         return response()->json(["code"=> 200 , "message" => "success" , "user" =>$user]);
